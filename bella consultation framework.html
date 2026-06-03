@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>벨라의 1:1 커피챗 상담 프레임워크</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'GmarketSansMedium';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight:normal;font-display:swap;}
+@font-face{font-family:'GmarketSansBold';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');font-weight:normal;font-display:swap;}
+
+:root{
+  --navy:#1B3A5C;
+  --navy-deep:#12283F;
+  --gold:#D4A94A;
+  --gold-soft:#E7CD8E;
+  --ivory:#FAF7F2;
+  --ink:#2B2B2B;
+  --muted:#6E7480;
+  --line:#E6DFD3;
+  --card:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--ivory);
+  color:var(--ink);
+  line-height:1.7;
+  word-break:keep-all;
+  min-height:100dvh;
+  padding-bottom:calc(40px + env(safe-area-inset-bottom));
+}
+.gm{font-family:'GmarketSansBold','Noto Sans KR',sans-serif;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(155deg,var(--navy-deep) 0%,var(--navy) 70%);
+  color:#fff;
+  padding:calc(40px + env(safe-area-inset-top)) 22px 38px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(212,169,74,.25),transparent 70%);
+}
+.hero .eyebrow{
+  font-family:'GmarketSansMedium','Noto Sans KR',sans-serif;
+  letter-spacing:3px;font-size:11px;color:var(--gold-soft);text-transform:uppercase;margin-bottom:14px;
+}
+.hero h1{font-size:27px;line-height:1.35;letter-spacing:-.5px;}
+.hero h1 b{color:var(--gold);}
+.hero p{margin-top:14px;color:#C9D4E0;font-size:14px;}
+
+/* MINDSET */
+.mindset{
+  background:var(--card);margin:-22px 14px 0;border-radius:18px;
+  padding:20px 18px;box-shadow:0 14px 34px rgba(27,58,92,.13);
+  border:1px solid var(--line);position:relative;
+}
+.mindset h2{font-size:13px;color:var(--gold);font-family:'GmarketSansBold','Noto Sans KR';letter-spacing:1px;margin-bottom:14px;}
+.mindset ul{list-style:none;display:grid;gap:11px;}
+.mindset li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;}
+.mindset li span{flex:0 0 auto;color:var(--gold);font-weight:900;}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:12px 0 12px;border-bottom:1px solid var(--line);margin-top:22px;
+}
+.nav-scroll{display:flex;gap:8px;overflow-x:auto;padding:0 14px;scrollbar-width:none;}
+.nav-scroll::-webkit-scrollbar{display:none;}
+.nav-scroll a{
+  flex:0 0 auto;text-decoration:none;font-size:13px;font-weight:700;
+  color:var(--navy);background:#fff;border:1.5px solid var(--line);
+  padding:9px 15px;border-radius:999px;min-height:42px;display:flex;align-items:center;
+  transition:.2s;
+}
+.nav-scroll a:active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+/* SECTIONS */
+main{padding:8px 14px 0;}
+.sec{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 18px;margin-top:18px;scroll-margin-top:74px;
+  opacity:0;transform:translateY(14px);animation:rise .6s forwards;
+}
+@keyframes rise{to{opacity:1;transform:none;}}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.badge{
+  flex:0 0 auto;width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(145deg,var(--navy),var(--navy-deep));
+  color:var(--gold);display:flex;align-items:center;justify-content:center;
+  font-family:'GmarketSansBold';font-size:17px;
+}
+.sec-head h2{font-size:18px;letter-spacing:-.3px;color:var(--navy);font-family:'GmarketSansBold','Noto Sans KR';}
+.sec-head .time{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px;}
+.goal{
+  background:var(--ivory);border-left:3px solid var(--gold);
+  padding:11px 14px;border-radius:0 10px 10px 0;font-size:13.5px;margin:14px 0 16px;color:#444;
+}
+.goal b{color:var(--navy);}
+.label{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin:16px 0 9px;text-transform:uppercase;}
+
+/* SCRIPT BUBBLES (tap to copy) */
+.script{
+  position:relative;background:#F4F0E8;border:1px solid #EAE2D2;
+  border-radius:14px;padding:13px 40px 13px 15px;margin-bottom:9px;
+  font-size:14.5px;color:#33312C;cursor:pointer;transition:.18s;line-height:1.65;
+}
+.script:active{transform:scale(.985);background:#EEE7D8;}
+.script::before{content:"💬";position:absolute;left:-2px;top:-9px;font-size:14px;}
+.script .copy{
+  position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:15px;opacity:.4;
+}
+.tip{display:flex;gap:9px;font-size:13px;color:var(--muted);margin-top:12px;align-items:flex-start;}
+.tip b{color:var(--gold);}
+
+/* QUESTION LIST */
+.qlist{list-style:none;display:grid;gap:9px;}
+.qlist li{
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+  font-size:14.5px;display:flex;gap:10px;align-items:flex-start;
+}
+.qlist li i{flex:0 0 auto;font-style:normal;color:var(--gold);font-family:'GmarketSansBold';font-size:13px;}
+.qlist li.key{border-color:var(--gold);background:linear-gradient(180deg,#fff,#FFFBF1);}
+.qlist .keytag{display:inline-block;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle;}
+
+/* TWO PATHS */
+.paths{display:grid;gap:11px;margin-top:6px;}
+.path{border:1.5px solid var(--line);border-radius:14px;padding:15px;}
+.path.consumer{background:linear-gradient(180deg,#fff,#F7FAFC);}
+.path.partner{background:linear-gradient(180deg,#fff,#FFFBF1);border-color:var(--gold-soft);}
+.path h4{font-size:14px;color:var(--navy);margin-bottom:5px;font-family:'GmarketSansBold','Noto Sans KR';}
+.path p{font-size:13.5px;color:#555;}
+
+/* ACCORDION */
+.acc{border:1px solid var(--line);border-radius:13px;overflow:hidden;margin-bottom:10px;background:#fff;}
+.acc summary{
+  list-style:none;cursor:pointer;padding:15px 16px;font-size:14.5px;font-weight:700;
+  color:var(--navy);display:flex;align-items:center;gap:10px;min-height:50px;
+}
+.acc summary::-webkit-details-marker{display:none;}
+.acc summary .arr{margin-left:auto;color:var(--gold);transition:.25s;font-size:13px;}
+.acc[open] summary .arr{transform:rotate(180deg);}
+.acc .body{padding:0 16px 16px;font-size:14px;color:#444;line-height:1.7;}
+.acc .body .re{
+  background:var(--ivory);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;
+  padding:12px 14px;margin-top:4px;color:#33312C;
+}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:26px;margin-top:6px;}
+.tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--gold-soft);}
+.tl-item{position:relative;margin-bottom:18px;}
+.tl-item::before{content:"";position:absolute;left:-23px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:3px solid var(--ivory);}
+.tl-when{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.5px;}
+.tl-title{font-size:14px;font-weight:700;color:var(--navy);margin:2px 0 7px;}
+
+/* FOOTER */
+footer{text-align:center;padding:34px 20px;color:var(--muted);font-size:12px;}
+footer .gm{color:var(--navy);font-size:14px;display:block;margin-bottom:4px;}
+
+/* TOAST */
+#toast{
+  position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+  background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-size:13px;font-weight:700;
+  opacity:0;pointer-events:none;transition:.3s;z-index:99;box-shadow:0 8px 24px rgba(27,58,92,.3);
+}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media (max-width:520px){
+  .hero h1{font-size:24px;}
+  .sec{padding:20px 15px;}
+}
+@media (max-width:360px){
+  .hero h1{font-size:21px;}
+  .sec-head h2{font-size:16px;}
+  .script{font-size:13.8px;}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">Coffee with Bella · 1:1 Consultation</div>
+  <h1 class="gm">커피 한 잔처럼 편하게,<br><b>결과는 분명하게.</b></h1>
+  <p>벨라의 1:1 커피챗 상담 프레임워크 · 오프닝부터 후속까지</p>
+</header>
+
+<section class="mindset">
+  <h2>☕ 상담 4원칙</h2>
+  <ul>
+    <li><span>01</span><div>파는 게 아니라 <b>듣는다</b> — 80% 듣기 / 20% 말하기</div></li>
+    <li><span>02</span><div>설득하지 않는다 — 상대가 <b>스스로 그림을 그리게</b> 한다</div></li>
+    <li><span>03</span><div>오늘 결정 안 해도 OK — <b>압박 제로</b>, 문은 항상 열어둔다</div></li>
+    <li><span>04</span><div>나는 증거다 — <b>공무원 → 2년째 노마드 · 크루즈 13번</b></div></li>
+  </ul>
+</section>
+
+<nav>
+  <div class="nav-scroll">
+    <a href="#prep">0 · 준비</a>
+    <a href="#open">1 · 오프닝</a>
+    <a href="#needs">2 · 니즈파악</a>
+    <a href="#offer">3 · 제안</a>
+    <a href="#close">4 · 클로징</a>
+    <a href="#object">5 · 거절대응</a>
+    <a href="#follow">6 · 후속</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- 0 PREP -->
+  <section class="sec" id="prep" style="animation-delay:.02s">
+    <div class="sec-head">
+      <div class="badge">0</div>
+      <div><h2>시작 전 1분 준비</h2><div class="time">통화 전</div></div>
+    </div>
+    <ul class="qlist">
+      <li><i>✔</i><div>신청서 답변 다시 읽기 — <b>왜 신청했나 / 지금 어떤 상황인가</b></div></li>
+      <li><i>✔</i><div>이름·호칭 메모해두기 (대화 중 자연스럽게 부르기)</div></li>
+      <li><i>✔</i><div>오늘의 목표 = "이게 이 분께 맞는지 <b>같이 확인하기</b>" (계약 아님!)</div></li>
+    </ul>
+  </section>
+
+  <!-- 1 OPENING -->
+  <section class="sec" id="open" style="animation-delay:.04s">
+    <div class="sec-head">
+      <div class="badge">1</div>
+      <div><h2>오프닝</h2><div class="time">약 5분 · 마음 열기</div></div>
+    </div>
+    <div class="goal"><b>목표:</b> 긴장 풀어주고, 대화의 틀 잡기. 첫 1분에 "안 팔아요"를 확실히.</div>
+    <div class="label">멘트 (탭하면 복사)</div>
+    <div class="script">OO님 안녕하세요! 오늘 시간 내주셔서 정말 감사해요 ☕<span class="copy">⧉</span></div>
+    <div class="script">오늘은 뭐 판매하거나 그런 거 전혀 아니고요, 그냥 편하게 OO님 얘기 듣고 이게 맞는지 같이 보려고 해요. 부담 갖지 마세요 :)<span class="copy">⧉</span></div>
+    <div class="script">한 20분 정도 편하게 얘기 나눠볼 건데, 괜찮으세요?<span class="copy">⧉</span></div>
+    <div class="script">신청서에 ~라고 적어주셨던데, 그 부분 좀 더 들려주실래요?<span class="copy">⧉</span></div>
+    <div class="tip"><b>TIP</b><div>경계심이 풀려야 진짜 대화가 시작돼요. "안 판다"는 신호를 먼저 줄 것.</div></div>
+  </section>
+
+  <!-- 2 NEEDS -->
+  <section class="sec" id="needs" style="animation-delay:.06s">
+    <div class="sec-head">
+      <div class="badge">2</div>
+      <div><h2>니즈 파악</h2><div class="time">약 10분 · 가장 중요, 제일 길게</div></div>
+    </div>
+    <div class="goal"><b>목표:</b> 진짜 욕구·고민·상황 파악. 여기서 <b>80% 듣기</b>. 답을 그들의 언어로 메모 → 3단계에서 그대로 재활용.</div>
+    <div class="label">질문 리스트</div>
+    <ul class="qlist">
+      <li><i>Q1</i><div>요즘 여행은 어떻게 다니세요? 자주 가시는 편이에요?</div></li>
+      <li><i>Q2</i><div>여행에서 제일 중요하게 생각하는 게 뭐예요? (비용 / 휴식 / 경험…)</div></li>
+      <li><i>Q3</i><div>혹시 "이런 삶 한번 살아보고 싶다" 하는 그림이 있어요?</div></li>
+      <li><i>Q4</i><div>지금 그걸 막고 있는 건 뭐라고 느끼세요? (시간 / 돈 / 용기…)</div></li>
+      <li class="key"><i>Q5</i><div>왜 <b>지금</b> 이 타이밍에 알아보게 되셨어요?<span class="keytag">핵심</span></div></li>
+    </ul>
+    <div class="tip"><b>TIP</b><div>답을 끊지 말기. 침묵 견디기. 끄덕임·되묻기로 "듣고 있다"를 보여주기.</div></div>
+  </section>
+
+  <!-- 3 OFFER -->
+  <section class="sec" id="offer" style="animation-delay:.08s">
+    <div class="sec-head">
+      <div class="badge">3</div>
+      <div><h2>제안 / 설득</h2><div class="time">약 10분 · 그들의 언어로 연결</div></div>
+    </div>
+    <div class="goal"><b>목표:</b> 기능 나열 ❌. 아까 들은 욕구에 솔루션을 <b>연결</b>. 한 조각씩, 반응 보며.</div>
+    <div class="label">① 다리 놓기</div>
+    <div class="script">아까 OO님이 ~라고 하셨잖아요. 그 부분에서 제가 도움이 될 것 같아요.<span class="copy">⧉</span></div>
+    <div class="label">② 내 이야기 (증거)</div>
+    <div class="script">저도 공무원 그만두고 막막했어요. 근데 지금 2년째 노마드로 크루즈 13번 다녔어요. 제가 특별해서가 아니라, 시스템이 있어서예요.<span class="copy">⧉</span></div>
+    <div class="label">③ 두 갈래 제시</div>
+    <div class="paths">
+      <div class="path consumer">
+        <h4>🧳 소비자의 길</h4>
+        <p>여행을 좋아한다면 — 멤버십으로 크루즈를 원가 수준에 즐기는 거예요.</p>
+      </div>
+      <div class="path partner">
+        <h4>💼 파트너의 길</h4>
+        <p>여기에 수입까지 만들고 싶다면 — 제가 하는 방식 그대로 알려드려요.</p>
+      </div>
+    </div>
+    <div class="label">④ 쉽게 그려주기</div>
+    <div class="script">복잡한 거 다 빼고요 — 회비가 적립되고, 그게 그대로 여행 자산이 돼요. 쓰면 쓸수록 여행이 가벼워지는 구조예요.<span class="copy">⧉</span></div>
+    <div class="tip"><b>TIP</b><div>한 번에 다 쏟지 말기. 한 조각 말하고 <b>"여기까지 어떠세요?"</b>로 반응 확인.</div></div>
+  </section>
+
+  <!-- 4 CLOSE -->
+  <section class="sec" id="close" style="animation-delay:.1s">
+    <div class="sec-head">
+      <div class="badge">4</div>
+      <div><h2>클로징</h2><div class="time">약 5분 · 다음 한 걸음</div></div>
+    </div>
+    <div class="goal"><b>목표:</b> 명확한 다음 행동. 압박은 절대 ❌, 문은 항상 열어두기.</div>
+    <div class="label">트라이얼 클로징</div>
+    <div class="script">여기까지 들으니까 좀 그려지세요? 어떤 부분이 제일 끌리세요?<span class="copy">⧉</span></div>
+    <div class="label">반응별 분기</div>
+    <ul class="qlist">
+      <li><i>👍</i><div><b>긍정:</b> "그럼 같이 시작해볼까요? 가입은 5분이면 돼요, 제가 옆에서 다 도와드릴게요."</div></li>
+      <li><i>🤔</i><div><b>망설임:</b> "어떤 부분이 제일 걸리세요?" → 진짜 이유 찾기 → 5번 거절 대응</div></li>
+      <li><i>💭</i><div><b>보류:</b> "충분히 고민하셔도 돼요. 자료 하나 보내드릴게요, 보시고 편하게 연락 주세요." → 6번 후속</div></li>
+    </ul>
+  </section>
+
+  <!-- 5 OBJECTIONS -->
+  <section class="sec" id="object" style="animation-delay:.12s">
+    <div class="sec-head">
+      <div class="badge">5</div>
+      <div><h2>거절 / 반박 대응</h2><div class="time">탭해서 펼치기</div></div>
+    </div>
+    <div class="goal"><b>원칙:</b> 반박을 이기려 하지 말고, <b>공감 → 재구성 → 가벼운 다음 걸음</b> 순으로.</div>
+
+    <details class="acc"><summary>💸 "회비가 부담돼요"<span class="arr">▾</span></summary>
+      <div class="body">그 마음 충분히 이해해요.
+        <div class="re">근데 이건 그냥 나가는 소비가 아니라, <b>여행 자산으로 쌓이는</b> 구조예요. 한 달 회비가 여행 갈 때 그대로 돌아와요. 한번 같이 계산해볼까요?</div>
+      </div>
+    </details>
+
+    <details class="acc"><summary>⏰ "여행 다닐 시간이 없어요"<span class="arr">▾</span></summary>
+      <div class="body">지금 당장 안 떠나도 괜찮아요.
+        <div class="re">적립은 계속 쌓이니까, <b>시간 날 때 더 좋은 조건으로</b> 떠나는 거예요. 미래의 나한테 미리 선물 보내두는 셈이죠.</div>
+      </div>
+    </details>
+
+    <details class="acc"><summary>🤔 "이거 다단계 아니에요?"<span class="arr">▾</span></summary>
+      <div class="body">그 질문 진짜 많이 받아요, 당연해요.
+        <div class="re">솔직하게 말씀드리면 — <b>여행 멤버십 서비스</b>이고, 원하면 소개로 수입도 생기는 구조예요. 강제 전혀 없고, 저는 그냥 여행이 좋아서 시작했어요. 부담되면 <b>소비자로만</b> 쓰셔도 전혀 문제없어요.</div>
+      </div>
+    </details>
+
+    <details class="acc"><summary>💭 "생각 좀 해볼게요"<span class="arr">▾</span></summary>
+      <div class="body">당연하죠, 중요한 결정이니까요.
+        <div class="re">혹시 <b>어떤 부분이 제일 고민되세요?</b> (← 진짜 이유 찾기) 자료 정리해서 보내드릴 테니, 보시고 며칠 뒤에 제가 가볍게 한번 여쭤볼게요.</div>
+      </div>
+    </details>
+
+    <details class="acc"><summary>👨‍👩‍👧 "가족이랑 상의해볼게요"<span class="arr">▾</span></summary>
+      <div class="body">좋아요, 같이 보시는 게 맞죠.
+        <div class="re">가족분이 궁금해하실 만한 것도 <b>정리해서 보내드릴게요.</b> 함께 보시기 편하게요.</div>
+      </div>
+    </details>
+
+    <details class="acc"><summary>🌊 "크루즈 안 좋아해요 / 배멀미"<span class="arr">▾</span></summary>
+      <div class="body">사실 저도 처음엔 걱정했어요 ㅎㅎ
+        <div class="re">요즘 배는 흔들림이 거의 없고, 멤버십은 <b>크루즈 외에도</b> 쓸 데가 많아요. OO님 여행 스타일부터 다시 한번 볼까요?</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- 6 FOLLOW UP -->
+  <section class="sec" id="follow" style="animation-delay:.14s">
+    <div class="sec-head">
+      <div class="badge">6</div>
+      <div><h2>후속 메시지</h2><div class="time">식은 리드를 가치로 다시 데우기</div></div>
+    </div>
+    <div class="goal"><b>원칙:</b> 모든 메시지에 "결정 안 해도 된다"는 여유. 압박 대신 가치를 흘려보내기.</div>
+    <div class="tl">
+      <div class="tl-item">
+        <div class="tl-when">상담 직후 · 즉시</div>
+        <div class="tl-title">감사 + 요약 + 다음 단계</div>
+        <div class="script">OO님 오늘 얘기 너무 즐거웠어요 ☕ 말씀하신 ~부분 제가 정리해서 보내드릴게요. 천천히 보시고 편하게 톡 주세요!<span class="copy">⧉</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">D+1</div>
+        <div class="tl-title">가치 콘텐츠 (압박 ❌)</div>
+        <div class="script">어제 말씀하신 ~ 생각나서요, 도움 될 것 같은 거 하나 보내요! [링크/자료]<span class="copy">⧉</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">D+3</div>
+        <div class="tl-title">부드러운 체크인</div>
+        <div class="script">보내드린 자료 보셨어요? 궁금한 거 있으면 언제든 편하게 물어보세요 :)<span class="copy">⧉</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">D+7</div>
+        <div class="tl-title">마지막 가벼운 노크 + 문 열어두기</div>
+        <div class="script">무리하게 권하는 거 절대 아니고요 ㅎㅎ 언제든 마음 정하시면 제가 도와드릴게요. 그동안 여행 영감 받으시라고 영상 하나 두고 가요 🛳️<span class="copy">⧉</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="gm">Bella · 벨라</span>
+  공무원 → 크루즈 노마드 · 커피챗 상담 가이드
+</footer>
+
+<div id="toast">복사됐어요 ✓</div>
+
+<script>
+  const toast=document.getElementById('toast');
+  let t;
+  document.querySelectorAll('.script').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const text=el.childNodes[0].textContent.trim();
+      const done=()=>{toast.classList.add('on');clearTimeout(t);t=setTimeout(()=>toast.classList.remove('on'),1400);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(()=>{fallback(text);done();});
+      }else{fallback(text);done();}
+    });
+  });
+  function fallback(text){
+    const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);
+  }
+</script>
+</body>
+</html>
